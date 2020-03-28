@@ -6,10 +6,6 @@ import re
 from nurture import nurture
 from utils import logger
 
-#Finds images matching 0-9x-09
-dimension_regex = r'([\d]+)(?:[xX])([\d]+)'
-regex = re.compile(dimension_regex)
-
 # Setup the logger
 log = logger.setup_logger(__name__, logging.WARNING, logger.defaultLoggingHandler())
 
