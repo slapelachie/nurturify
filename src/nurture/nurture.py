@@ -9,13 +9,14 @@ from utils import utils, logger
 from PIL import Image
 from PIL import ImageDraw 
 from PIL import ImageFont
+from PIL import ImageFilter
 
 # Setup the required loggers
 log = logger.setup_logger(__name__+'.default', logging.WARNING, logger.defaultLoggingHandler())
 
 FNULL = open(os.devnull, 'w')
 
-def generate(file, output_arg, percent, type_cut, verbose):
+def generate(file, output_arg, percent, type_cut, blur, verbose):
 	"""
 	Used to resize the image to a specific size, the way the arguments are parsed
 	here are terribly done and will need to be improved in the future
@@ -175,6 +176,11 @@ def generate(file, output_arg, percent, type_cut, verbose):
 		with Image.open(image) as img:	
 			# Crop the image to the bounds
 			img_top = img.crop(crop)
+			if blur:
+				if blur.isdigit():
+					img_top = img_top.filter(ImageFilter.GaussianBlur(int(blur)))
+				else:
+					log.warning("Blur is not a valid integer, proceeding without blur...")
 
 			# Combine the image, textbox and random scribble to make one image.
 			background.paste(img_top, offset)

@@ -26,6 +26,9 @@ def get_args():
 	arg.add_argument('-t', metavar="",
 		help="Way to cut")
 
+	arg.add_argument('-b', metavar="radius",
+		help="The amount to blur the original image")
+
 	arg.add_argument('-v', action="store_true",
 		help="Verbose logging")
 
@@ -48,7 +51,7 @@ def parse_args(parser):
 	# If the image argument has been passed
 	# This is required and the program will not work without it
 	if args.i:
-		nurture.generate(args.i, args.o, args.c, args.t, args.v,)
+		nurture.generate(args.i, args.o, args.c, args.t, args.b, args.v,)
 	else:
 		log.warning("Argument -i needs to be specified.")
 		parser.print_help()
