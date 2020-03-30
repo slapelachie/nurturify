@@ -5,6 +5,9 @@ A simple script to convert images to resemble the style of Porter Robinson's nur
 This an example output through the command `$ nurturify -i test.png -t left_vertical`
 ![Example output](/git_resources/example.png)
 
+The example was generated to be a spotify playlist cover, using the command `$ nurturify -i snow_sakura_plst.png -c 40 -t left_vertical`
+![Example spotify playlist](/git_resources/spotify_playlist_example.jpg)
+
 ## Installation
 Tested on Arch Linux and nothing else. This probably works on other distros as well.
 ### Prerequisites
@@ -29,6 +32,8 @@ The arguments are the following
 | -o        | The output file |
 | -t        | The type of cut (TOP_HORIZONTAL, BOTTOM HORIZONTAL, LEFT_VERTICAL, RIGHT_VERTICAL)
 | -c        | The abount to take away in percentage (e.g. 30 for 30%)|
+| -b        | How much to blur the original image (radius) |
+| -m        | The string to put in the banner, if left blanks generates random info |
 | -v        | Verbose logging |
 
 ## License
