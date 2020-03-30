@@ -6,6 +6,7 @@ This an example output through the command `$ nurturify -i test.png -t left_vert
 ![Example output](/git_resources/example.png)
 
 The example was generated to be a spotify playlist cover, using the command `$ nurturify -i snow_sakura_plst.png -c 40 -t left_vertical`
+
 ![Example spotify playlist](/git_resources/spotify_playlist_example.jpg)
 
 ## Installation
