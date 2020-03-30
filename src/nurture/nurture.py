@@ -16,7 +16,7 @@ log = logger.setup_logger(__name__+'.default', logging.WARNING, logger.defaultLo
 
 FNULL = open(os.devnull, 'w')
 
-def generate(file, output_arg, percent, type_cut, blur, verbose):
+def generate(file, output_arg, percent, type_cut, blur, msg, verbose):
 	"""
 	Used to resize the image to a specific size, the way the arguments are parsed
 	here are terribly done and will need to be improved in the future
@@ -98,19 +98,29 @@ def generate(file, output_arg, percent, type_cut, blur, verbose):
 		log.critical("Could not get image info for %s", image)
 		sys.exit(1)
 
-	textbox_size = (width, int(height*(1/20)))
 	cut_width = width
 	cut_height = height
 
 	# Get random info message information
 	mod_date = time.strftime('%Y-%m-%d', time.localtime(os.path.getmtime(image)))
 	mod_time = time.strftime('%H:%M:%S', time.localtime(os.path.getmtime(image)))
-	msg = ("35°39′34″N | 139°42′02″E | filename: " + os.path.basename(image) + " date: " + mod_date + " time: " + mod_time + 
-		" color space: " + img.mode + " width: " + str(width) + " height: " + str(height) + " | ")
-	msg = msg + msg 
+	if not msg:
+		msg = ("35°39′34″N | 139°42′02″E | filename: " + os.path.basename(image) + " date: " + mod_date + " time: " + mod_time + 
+			" color space: " + img.mode + " width: " + str(width) + " height: " + str(height) + " | ")
+		msg = msg + msg 
 
 	#Load the font
-	font = ImageFont.truetype(os.path.expanduser("~/.fonts/opensans.ttf"), 33)
+	if "HORIZONTAL" in type_cut:	
+		font_size = int(width/58)
+		textbox_size = (width, int(height*(1/20)))
+	elif "VERTICAL" in type_cut:
+		font_size = int(height/58)
+		textbox_size = (height, int(width*(1/40)))
+	else:
+		font_size = 33
+		textbox_size = (width, int(height*(1/20)))
+
+	font = ImageFont.truetype(os.path.expanduser("~/.fonts/opensans.ttf"), font_size)
 
 	# Make the background (black) image and the textbox (black) image
 	background = Image.new('RGBA', (width, height), (0, 0, 0, 255))
@@ -119,7 +129,7 @@ def generate(file, output_arg, percent, type_cut, blur, verbose):
 	# Add text to the text box
 	draw = ImageDraw.Draw(text_box)
 	text_size = draw.textsize(msg, font=font)
-	draw.text((10, int((textbox_size[1]- text_size[1])/2)), msg, (255,255,255), font=font)
+	draw.text((2, int((textbox_size[1]- text_size[1])/2)), msg, (255,255,255), font=font)
 
 	# Basically depending on the orientation the crop of the image will be different and hence
 	# a different crop, offset, and position needs to be applied
